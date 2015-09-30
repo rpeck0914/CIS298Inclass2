@@ -160,6 +160,14 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        //Check to see if there is a bundle and that it is not null
+        //If so, fetch out the KEY_INDEX, which will be the index of
+        //the question that we were on before we did a rotate.
+        if (savedInstanceState != null)
+        {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
+
         //This is declared up above. It does the work of changing
         //to the next question in the array
         updateQuestion();
@@ -167,8 +175,28 @@ public class QuizActivity extends AppCompatActivity {
         //End code I write*******************************
     }
 
+
     //Static string to use for the override method
     private static final String TAG = "QuizActivity";
+
+    //Static string to be used as the key in the key / value
+    //Bundle for onSaveInstanceState
+    private static final String KEY_INDEX = "index";
+
+    //Overridden method to save any information about
+    //our activity that we will need to restore from
+    //either a rotate, or a change in activity.
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        //Log that onSaveInstanceState was called
+        Log.i(TAG, "onSaveInstance");
+        //put the index of the question that we are on into
+        //the bundle, using a key defined above as the
+        //variable KEY_INDEX and the value "index"
+        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+    }
+
 
     //Below are the main activity methods that can be
     //overridden to do 'work' with our application
@@ -203,6 +231,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onStart();
         Log.d(TAG, "onStart() called");
     }
+
+
 
     //These are methods that we did not write, but Google provided.
     //If we get to using menus, we will need them. They can be ignored for now.
