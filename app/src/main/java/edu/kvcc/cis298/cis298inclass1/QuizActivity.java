@@ -1,5 +1,6 @@
 package edu.kvcc.cis298.cis298inclass1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +18,12 @@ public class QuizActivity extends AppCompatActivity {
     //No value yet. Just declared the variable
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mCheatButton;
     //Variable for the next button
     private Button mNextButton;
     //Variable for the question string.
     private TextView mQuestionTextView;
+
 
     //The questions that will be used. It is an array of type
     //Question, that contains 5 Questions. It is a hard coded
@@ -157,6 +160,17 @@ public class QuizActivity extends AppCompatActivity {
                 //This method is declared at the top of the class. It
                 //handles updating the question text.
                 updateQuestion();
+            }
+        });
+
+        mCheatButton = (Button) findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+                Intent i = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+
+                startActivity(i);
             }
         });
 
